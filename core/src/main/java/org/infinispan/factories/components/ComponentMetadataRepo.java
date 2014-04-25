@@ -106,7 +106,9 @@ public class ComponentMetadataRepo {
    public void initialize(Iterable<ModuleMetadataFileFinder> moduleMetadataFiles, ClassLoader cl) {
       // First init core module metadata
       try {
-         readMetadata(cl.getResource("infinispan-core-component-metadata.dat"));
+          URL metadataURL = cl.getResource("infinispan-core-component-metadata.dat");
+          if (metadataURL==null) metadataURL = ComponentMetadataRepo.class.getResource("/infinispan-core-component-metadata.dat");
+          readMetadata(metadataURL);
       } catch (Exception e) {
          throw new CacheException("Unable to load component metadata!", e);
       }
@@ -114,7 +116,9 @@ public class ComponentMetadataRepo {
       // Now the modules
       for (ModuleMetadataFileFinder finder: moduleMetadataFiles) {
          try {
-            readMetadata(cl.getResource(finder.getMetadataFilename()));
+             URL metadataURL = cl.getResource(finder.getMetadataFilename());
+             if (metadataURL==null) metadataURL = ComponentMetadataRepo.class.getResource("/"+finder.getMetadataFilename());
+            readMetadata(metadataURL);
          } catch (Exception e) {
             throw new CacheException("Unable to load component metadata in file " + finder.getMetadataFilename(), e);
          }

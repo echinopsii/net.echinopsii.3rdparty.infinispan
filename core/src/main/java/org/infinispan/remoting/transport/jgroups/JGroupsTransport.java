@@ -359,6 +359,7 @@ public class JGroupsTransport extends AbstractTransport implements MembershipLis
          if (channel == null && props.containsKey(CONFIGURATION_FILE)) {
             cfg = props.getProperty(CONFIGURATION_FILE);
             URL conf = FileLookupFactory.newInstance().lookupFileLocation(cfg, configuration.classLoader());
+            if (conf == null) conf = JGroupsTransport.class.getResource("/"+cfg);
             if (conf == null) {
                throw new CacheConfigurationException(CONFIGURATION_FILE
                         + " property specifies value " + cfg + " that could not be read!",
