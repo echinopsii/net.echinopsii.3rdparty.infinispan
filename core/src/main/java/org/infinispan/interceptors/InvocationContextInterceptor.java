@@ -126,9 +126,9 @@ public class InvocationContextInterceptor extends CommandInterceptor {
                   if (th instanceof WriteSkewException) {
                      // We log this as DEBUG rather than ERROR - see ISPN-2076
                      log.debug("Exception executing call", th);
-                  } else {
-                     log.executionError(th);
-                  }
+                  } //else {
+                    // log.executionError(th);
+                  //}
                   if (ctx.isInTxScope() && ctx.isOriginLocal()) {
                      if (trace) log.trace("Transaction marked for rollback as exception was received.");
                      markTxForRollbackAndRethrow(ctx, th);
